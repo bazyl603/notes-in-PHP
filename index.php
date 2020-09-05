@@ -4,41 +4,31 @@ declare(strict_types=1);
 
 namespace App;
 
-require_once("src/Utils/debug.php");
+//on in production
+//error_reporting(0);
+//ini_set('display_errors', '0');
 
-$test = 'hola';
+require_once("src/Utils/debug.php");  //off in production
+require_once("src/View.php");
 
-dump($test);
+const DEFAULT_ACTION = 'list';
 
-?>
+// if (!empty($_GET['action'])){
+//     $action = $_GET['action'];
+// } else{
+//     $action = DEFAULT_ACTION;  |
+// } beter is bottom             \/
+$action = $_GET['action'] ?? DEFAULT_ACTION;
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Note</title>
-</head>
-<body>
-    <nav>
-        Navigation to creat
-    </nav>
+$view = new View();
 
-    <section>
-        <div class="menu">
-            <ul>
-                <li><a href="/">List of notes</a></li>
-                <li><a href="/?action=create">Create note</a></li>
-            </ul>
-        </div>
+$viewParams = [];
+if ($action === 'create'){
+    $page = 'create';
+    $viewParams['resultCreate'] = "success";
+} else{
+    $page = 'list';
+    $viewParams['resultList'] = "display notes";
+}
 
-        <div>
-            notes
-        </div>
-    </section>
-
-    <footer>
-        How create?
-    </footer>
-</body>
-</html>
+$view->render($page, $viewParams);
