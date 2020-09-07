@@ -1,5 +1,5 @@
 <div>
-  <h3> create note</h3>
+  <h3> Create note</h3>
   <div>
     <?php if ($params['created']) : ?>
       <div>
@@ -8,17 +8,17 @@
       </div>
     <?php else : ?>
       <form class="note-form" action="/?action=create" method="post">
-        <ul>
+        <ul class="ul-form">
           <li>
-            <label>Tytuł <span class="required">*</span></label>
-            <input type="text" name="title" class="field-long" />
+            <label>Title<span class="required">*</span></label>
+            <input type="text" name="title" class="field-long field-title" />
           </li>
           <li>
-            <label>Treść</label>
-            <textarea name="description" id="field5" class="field-long field-textarea"></textarea>
+            <label>Description:</label>
+            <textarea name="description" class="field-long field-textarea"></textarea>
           </li>
           <li>
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Create" class="add-btn"/>
           </li>
         </ul>
       </form>

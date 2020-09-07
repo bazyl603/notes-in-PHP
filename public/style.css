@@ -9,14 +9,13 @@ body {
 
 article{
     margin: 0;
-    margin-top: 10vh;
+    margin-top: 15vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100vw;
     max-width: 800px;
-    min-height: 90vh;
-    background-color: aqua;
+    min-height: 85vh;
 }
 
 nav{
@@ -45,8 +44,60 @@ ul a{
     text-decoration: none;
     margin-left: 25px;
     font-size: 25px;
+    color: rgb(0, 0, 0);
 }
 
-div{
-    background-color: saddlebrown;
+div {
+    text-align: center;
+}
+
+.field-long{
+    display: block;
+    margin: 2vh auto;
+    width: 80vw;
+    max-width: 400px;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: rgba(245, 245, 245, 0.459); 
+    border: 3px solid lightblue;
+    color: gray;   
+}
+
+.field-long:focus{
+    background-color: azure;
+}
+
+.field-title{
+    height: 3vh;    
+    border-radius: 50px;
+}
+
+.field-textarea{
+    height: 15vh;
+    text-align: justify;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.ul-form{
+    display: block;
+}
+
+.required{
+    color: brown;
+}
+
+.add-btn{
+    margin: 5vh;
+    width: 10vw;
+    min-width: 110px;
+    border: 0px;
+    height: 35px;
+    color: gray;
+    border-radius: 50px;
+}
+
+.add-btn:hover{
+    background-color: lightblue;
+    color: whitesmoke;
 }
