@@ -64,7 +64,7 @@ div {
 }
 
 .field-long:focus{
-    background-color: azure;
+    background-color: rgba(240, 255, 255, 0.4);
 }
 
 .field-title{
@@ -100,4 +100,8 @@ div {
 .add-btn:hover{
     background-color: lightblue;
     color: whitesmoke;
+}
+
+.message{
+    color: rgba(0, 128, 0, 0.7);
 }
