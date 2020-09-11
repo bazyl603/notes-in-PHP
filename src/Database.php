@@ -27,13 +27,27 @@ class Database{
         }
     }
 
+    public function getNote(): array{
+        try{
+            $note = [];
+
+            $query = "SELECT title, created FROM notes";
+            $result = $this->con->query($query);
+            $note = $result->fetchAll(PDO::FETCH_ASSOC);
+            
+            return $note;
+        } catch (Throwable $e){
+            throw new StorageException('We have problem with get notes!', 400);
+        }
+    }
+
     public function createNote(array $data): void{
         try{
             $title = $this->con->quote($data['title']);
             $description = $this->con->quote($data['description']);
             $created = $this->con->quote(date('Y-m-d H:i:s'));
 
-            $query = "INSERT INTO notes(titles, description, created) VALUES($title, $description, $created)";
+            $query = "INSERT INTO notes(title, description, created) VALUES($title, $description, $created)";
             $this->con->exec($query);
         } catch (Throwable $e){
             throw new StorageException('No create note!', 400);

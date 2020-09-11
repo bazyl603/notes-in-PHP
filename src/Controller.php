@@ -35,8 +35,6 @@ class Controller {
   }
 
   public function run(): void {
-    $viewParams = [];
-
     switch ($this->action()) {
       case 'create':
         $page = 'createNote';
@@ -67,11 +65,14 @@ class Controller {
 
         $data = $this->getRequestGet();
 
-        $viewParams['before'] = $data['before'] ?? null;
+        $viewParams = [
+          'notes' => $this->database->getNote(),
+          'before' => $data['before'] ?? null
+        ];
         break;
     }
 
-    $this->view->render($page, $viewParams);
+    $this->view->render($page, $viewParams ?? []);
   }
 
   private function action(): string {

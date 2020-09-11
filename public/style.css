@@ -7,6 +7,10 @@ body {
     align-items: center;
 }
 
+h4{
+    margin: 0;
+}
+
 article{
     margin: 0;
     margin-top: 15vh;
@@ -49,6 +53,7 @@ ul a{
 
 div {
     text-align: center;
+    margin: 0;
 }
 
 .field-long{
@@ -58,7 +63,7 @@ div {
     max-width: 400px;
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
-    background-color: rgba(245, 245, 245, 0.459); 
+    background-color: rgba(245, 245, 245, 0.5); 
     border: 3px solid lightblue;
     color: gray;   
 }
@@ -104,4 +109,33 @@ div {
 
 .message{
     color: rgba(0, 128, 0, 0.7);
+}
+
+.show-note{
+    width: 90vw;
+    max-width: 500px;
+    min-height: 15vh;
+    border-radius: 10px;
+    margin: 2vh 0vw;
+    background-image: linear-gradient(rgba(245, 245, 245, 0.5) 65%, azure);
+}
+
+p{
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.show-date{
+    margin: 0;
+    padding: 1vh 1vw;
+    color: rgba(128, 128, 128, 0.3);
+    text-align: left;
+    font-size: 0.7rem;
+}
+
+.show-more{
+    margin-top: 5vh;
+    color: lightblue;
+    text-decoration: overline;
+    font-size: 0.9rem;
 }
