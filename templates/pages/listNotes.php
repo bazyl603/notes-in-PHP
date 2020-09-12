@@ -13,21 +13,37 @@
         ?>
 
     </div>
+    <div class="message error">
 
-    <div>
-        <?php foreach ($params['notes'] as $note) : ?>
+        <?php
+        if (!empty($params['error'])){
+            switch ($params['error']){
+                case 'noteNotFound':
+                    echo 'Trouble with the note!';
+                    break;
+                case 'missingNote':
+                    echo 'Missing note!';
+                    break;
+            }
+        } 
+        ?>
+
+    </div>
+
+    <div class="notes">
+        <?php foreach ($params['notes'] ?? [] as $note) : ?>
             <div class="show-note">
-                <p class="show-date"><?php echo $note['created'] ?><p>
-                <p><?php echo $note['title'] ?></p>
-                <p class="show-more">more</p>
+                <p class="show-date"><?php echo htmlentities($note['created']) ?><p>
+                <p><?php echo htmlentities($note['title']) ?></p>
+                <p class="show-more"><a href="/?action=show&id=<?php echo (int) $note['id'] ?>" class="show-more">show</a></p>
             </div>
             <?php endforeach; ?>
     </div>
 </div>
 
 <script>
-    const el = document.querySelector(".message");
-    setTimeout(function(){            
-        el.style.color = "transparent";
+    const el = document.querySelectorAll(".message");
+    setTimeout(function(){         
+            el.forEach(function(el) {el.style.color = "transparent";});
     }, 800);
 </script>

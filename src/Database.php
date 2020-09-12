@@ -6,9 +6,11 @@ namespace App;
 
 require_once("src/Exeption/StorageException.php");
 require_once("src/Exeption/ConfigurationException.php");
+require_once("src/Exeption/NotFoundExceprion.php");
 
 use App\Exception\ConfigurationException;
 use App\Exception\StorageException;
+use App\Exception\NotFoundException;
 use PDO;
 use PDOException;
 use Throwable;
@@ -31,7 +33,7 @@ class Database{
         try{
             $note = [];
 
-            $query = "SELECT title, created FROM notes";
+            $query = "SELECT id, title, created FROM notes";
             $result = $this->con->query($query);
             $note = $result->fetchAll(PDO::FETCH_ASSOC);
             
@@ -39,6 +41,25 @@ class Database{
         } catch (Throwable $e){
             throw new StorageException('We have problem with get notes!', 400);
         }
+    }
+
+    public function getOneNote(int $id): array{
+        try{
+            $note =[];
+
+            $query = "SELECT id, title, description, created FROM notes WHERE id = $id";
+            $result = $this->con->query($query);
+            $note = $result->fetch(PDO::FETCH_ASSOC);
+
+        } catch (Throwable $e) {
+            throw new StorageException('We have problem with get this note. Try again!', 400);
+        }
+
+        if (!$note){
+            throw new NotFoundException('Note not exist');
+        }else {
+            return $note;
+        }    
     }
 
     public function createNote(array $data): void{

@@ -27,6 +27,8 @@ nav{
     align-self: flex-start;
     height: 10vh;
     top:0;
+    left: 0;
+    margin: 0;
 }
 
 footer{
@@ -41,12 +43,15 @@ footer{
 ul{
     display: flex;
     list-style-type: none;
-    padding: 2vh;
+    width: 100vw;
+    background-color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+    padding: 20px;
 }
 
 ul a{
     text-decoration: none;
-    margin-left: 25px;
+    margin-left: 20px;
     font-size: 25px;
     color: rgb(0, 0, 0);
 }
@@ -54,6 +59,10 @@ ul a{
 div {
     text-align: center;
     margin: 0;
+}
+
+.notes{
+    margin-bottom: 10vh;
 }
 
 .field-long{
@@ -65,7 +74,8 @@ div {
     font-family: Arial, Helvetica, sans-serif;
     background-color: rgba(245, 245, 245, 0.5); 
     border: 3px solid lightblue;
-    color: gray;   
+    color: gray;  
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
 }
 
 .field-long:focus{
@@ -86,6 +96,8 @@ div {
 
 .ul-form{
     display: block;
+    width: 90vw;
+    box-shadow: none;
 }
 
 .required{
@@ -111,13 +123,19 @@ div {
     color: rgba(0, 128, 0, 0.7);
 }
 
+.error{
+    color: rgba(255, 0, 0, 0.7);
+}
+
 .show-note{
     width: 90vw;
     max-width: 500px;
     min-height: 15vh;
     border-radius: 10px;
     margin: 2vh 0vw;
+    margin-bottom: 1vh;
     background-image: linear-gradient(rgba(245, 245, 245, 0.5) 65%, azure);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 p{
@@ -137,5 +155,30 @@ p{
     margin-top: 5vh;
     color: lightblue;
     text-decoration: overline;
+    font-size: 0.9rem;
+}
+
+.show-more:hover{
+    color: rgba(128, 128, 128, 0.3);
+    cursor: pointer;
+}
+
+#show-one-note{
+    margin: 0;
+    margin-bottom: 6vh;
+}
+
+hr {
+    border: 0; 
+    margin: 10px; 
+    padding: 0;
+    height: 1px; border-top: 1px solid rgba(128, 128, 128, 0.3);
+}
+
+.show-description{
+    margin: 20px;
+    color: rgba(0, 0, 0, 0.7);
+    text-align: justify;
+    min-height: 50vh;
     font-size: 0.9rem;
 }
