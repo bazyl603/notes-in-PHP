@@ -38,16 +38,8 @@ class Controller {
     $this->view = new View();
   }
 
-  public function run(): void {
-    switch ($this->action()) {
-//create      
-      case 'create':
-        $page = 'createNote';
-        $created = false;
-
+  public function createAction(){
         if ($this->request->hasPost()) {
-          $created = true;
-
           $this->database->createNote([
             'title' => $this->request->postParam('title'),
             'description' => $this->request->postParam('description')
@@ -56,12 +48,10 @@ class Controller {
           header("Location: /?before=created");
           exit;
         }
-//show
-        $viewParams['created'] = $created;
-        break;
-      case 'show':
-        $page = 'show';
+    $this->view->render('createNote');
+  }
 
+  public function showAction(){
         $noteId = (int) $this->request->getParam('id');
         
         if (!$noteId){
@@ -75,24 +65,36 @@ class Controller {
           header('Location: /?error=noteNotFound');
           exit;
         }
+    $this->view->render('show', ['note' => $note]);
+  }
 
-        $viewParams = [
-          'note' => $note
-        ];
-        break;
-//list
-      default:
-        $page = 'listNotes';
-
+  public function listAction(){
         $viewParams = [
           'notes' => $this->database->getNote(),
           'before' => $this->request->getParam('before'),
           'error' => $data['error'] ?? null
         ];
-        break;
-    }
+    $this->view->render('listNotes', $viewParams ?? []);
+  }
 
-    $this->view->render($page, $viewParams ?? []);
+  public function run(): void {
+    $action = $this->action() . 'Action';
+
+    if (!method_exists($this, $action)){
+      $action = self::DEFAULT_ACTION . 'Action';
+    }
+    $this->$action();
+    // switch ($this->action()) {     
+    //   case 'create':
+    //     $this->create();
+    //     break;
+    //   case 'show':
+    //     $this->show();
+    //     break;
+    //   default:
+    //     $this->list();
+    //     break;
+    // }
   }
 
   private function action(): string {
