@@ -33,9 +33,9 @@
     <div class="notes">
         <?php foreach ($params['notes'] ?? [] as $note) : ?>
             <div class="show-note">
-                <p class="show-date"><?php echo htmlentities($note['created']) ?><p>
-                <p><?php echo htmlentities($note['title']) ?></p>
-                <p class="show-more"><a href="/?action=show&id=<?php echo (int) $note['id'] ?>" class="show-more">show</a></p>
+                <p class="show-date"><?php echo $note['created'] ?><p>
+                <p><?php echo $note['title'] ?></p>
+                <p class="show-more"><a href="/?action=show&id=<?php echo $note['id'] ?>" class="show-more">show</a></p>
             </div>
             <?php endforeach; ?>
     </div>
