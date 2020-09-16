@@ -24,7 +24,7 @@
     </article>
 
     <footer>
-        Who create? You create!
+        Who create? Łukasz Pietrowski!
     </footer>
     
 </body>

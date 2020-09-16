@@ -8,7 +8,7 @@ class View{
     public function render(?string $page, array $params = []): void{
 
         $params = $this->escape($params);
-        include_once("templates/layout.php");
+        require_once("templates/layout.php");
         
     }
 
@@ -18,7 +18,7 @@ class View{
         foreach ($params as $key => $param){
             if (is_array($param)){
                 $clearParams[$key] = $this->escape($param);  //rekurencja
-            } else if ($params){
+            } else if ($param){
                 $clearParams[$key] = htmlentities($param);
             } else{
                 $clearParams[$key] = $param;
