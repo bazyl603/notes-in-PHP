@@ -14,8 +14,9 @@ use App\Request;
 use App\Controller\AbstractController;
 use App\Controller\NoteController;
 use App\Exception\ConfigurationException;
+use App\Exception\NotFoundException;
 
-$request = new Request($_GET, $_POST);
+$request = new Request($_GET, $_POST, $_SERVER);
 
 try{
     AbstractController::initConfiguration($config);
@@ -24,4 +25,5 @@ try{
     echo '<h1>We have a problem with App!</h1>';
 } catch (\Throwable $e){
     echo '<h1>We have a problem!</h1>';
+    dump($e);
 } 

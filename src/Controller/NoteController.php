@@ -5,46 +5,73 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Exception\NotFoundException;
-
+use ErrorException;
 
 class NoteController extends AbstractController{
 
   public function createAction(){
-        if ($this->request->hasPost()) {
-          $this->database->createNote([
-            'title' => $this->request->postParam('title'),
-            'description' => $this->request->postParam('description')
-          ]);
+    if ($this->request->hasPost()) {
+      $noteData = [
+        'title' => $this->request->postParam('title'),
+        'description' => $this->request->postParam('description')
+      ];
+      $this->database->createNote($noteData);
+      $this->redirect('/', ['before' => 'created']);
+    }
 
-          header("Location: /?before=created");
-          exit;
-        }
     $this->view->render('createNote');
   }
 
   public function showAction(){
-        $noteId = (int) $this->request->getParam('id');
-        
-        if (!$noteId){
-          header('Location: /?error=missingNote');
-          exit;
-        }
+    $noteId = (int) $this->request->getParam('id');
 
-        try{
-          $note = $this->database->getOneNote($noteId);
-        } catch (NotFoundException $e){
-          header('Location: /?error=noteNotFound');
-          exit;
-        }
-    $this->view->render('show', ['note' => $note]);
+    if (!$noteId) {
+      $this->redirect('/', ['error' => 'missingNoteId']);
+    }
+
+    try {
+      $note = $this->database->getNote($noteId);
+    } catch (NotFoundException $e) {
+      $this->redirect('/', ['error' => 'noteNotFound']);
+    }
+
+    $this->view->render('show',['note' => $note]);
   }
 
   public function listAction(){
-        $viewParams = [
-          'notes' => $this->database->getNote(),
-          'before' => $this->request->getParam('before'),
-          'error' => $data['error'] ?? null
-        ];
-    $this->view->render('listNotes', $viewParams ?? []);
+    $this->view->render(
+      'listNotes',
+      [
+        'notes' => $this->database->getNotes(),
+        'before' => $this->request->getParam('before'),
+        'error' => $this->request->getParam('error')
+      ]
+    );
+  }
+
+  public function editAction(){
+
+    if ($this->request->isPost()) {
+      $noteId = (int) $this->request->postParam('id');
+      $noteData = [
+        'title' => $this->request->postParam('title'),
+        'description' => $this->request->postParam('description')
+      ];
+      $this->database->editNote($noteId, $noteData);
+      $this->redirect('/', ['before' => 'edited']);
+    }
+
+    $noteId = (int) $this->request->getParam('id');
+    if (!$noteId) {
+      $this->redirect('/', ['error' => 'missingNoteId']);
+    }
+
+    try {
+      $note = $this->database->getNote($noteId);
+    } catch (NotFoundException $e) {
+      $this->redirect('/', ['error' => 'noteNotFound']);
+    }
+
+    $this->view->render('editNote', ['note' => $note]);
   }
 }

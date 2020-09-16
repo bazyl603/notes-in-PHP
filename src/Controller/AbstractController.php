@@ -9,6 +9,7 @@ use App\Request;
 use App\Database;
 use App\View;
 use App\Exception\ConfigurationException;
+use App\Exception\NotFoundException;
 
 abstract class AbstractController{
   protected const DEFAULT_ACTION = 'list';
@@ -41,21 +42,27 @@ abstract class AbstractController{
       $action = self::DEFAULT_ACTION . 'Action';
     }
     $this->$action();
-    // switch ($this->action()) {     
-    //   case 'create':
-    //     $this->create();
-    //     break;
-    //   case 'show':
-    //     $this->show();
-    //     break;
-    //   default:
-    //     $this->list();
-    //     break;
-    // }
+  
   }
 
   private function action(): string {
     $action = $this->request->getParam('action', self::DEFAULT_ACTION);
     return $action;
   }
+
+  protected function redirect(string $to, array $params): void{
+    $location = $to;
+
+    if (count($params)) {
+      $queryParams = [];
+      foreach ($params as $key => $value) {
+        $queryParams[] = urlencode($key) . '=' . urlencode($value);
+      }
+      $queryParams = implode('&', $queryParams);
+      $location .= '?' . $queryParams;
+    }
+
+    header("Location: $location");
+    exit;
+  } 
 }
