@@ -2,11 +2,13 @@
     <?php if($note): ?>
         <div class="show-note" id="show-one-note">
             <p class="show-date"><?php echo $note['created'] ?><p>
-            <span class="delete-note"><a href="/?action=edit&id=<?php echo $note['id']; ?>" class="delete-note">edit</a></span>
             <p><?php echo htmlentities($note['title']) ?></p>
-            <hr>
+            <hr>          
             <p class="show-description"><?php echo $note['description'] ?></p>
-            <a href="/" class="show-more"><p class="show-more">back</p></a>
+            <form method="POST" action="/?action=delete">
+                <input name="id" type="hidden" value="<?php echo $note['id'] ?>"/>
+                <input type="submit" value="Delete" class="add-btn"/>
+            </form>              
         </div>
 
     <?php else : ?>
@@ -17,4 +19,4 @@
             <p class="show-description"></p>
             <p class="show-more"><a href="/" class="show-more">back</a></p>
         </div>
-    <?php endif; ?>     
+    <?php endif; ?>   

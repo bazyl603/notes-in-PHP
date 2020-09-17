@@ -183,13 +183,15 @@ hr {
     font-size: 0.9rem;
 }
 
-.edit{
+.delete-note{
     color: lightblue;
     text-decoration: underline;
     font-size: 0.9rem;
+    margin-top: -2vh;
+    margin-bottom: 2vh;
 }
 
-.edit:hover{
+.delete-note:hover{
     color: rgba(128, 128, 128, 0.3);
     cursor: pointer;
 }

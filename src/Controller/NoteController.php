@@ -9,7 +9,7 @@ use ErrorException;
 
 class NoteController extends AbstractController{
 
-  public function createAction(){
+  public function createAction(): void{
     if ($this->request->hasPost()) {
       $noteData = [
         'title' => $this->request->postParam('title'),
@@ -22,23 +22,15 @@ class NoteController extends AbstractController{
     $this->view->render('createNote');
   }
 
-  public function showAction(){
+  public function showAction(): void{
     $noteId = (int) $this->request->getParam('id');
 
-    if (!$noteId) {
-      $this->redirect('/', ['error' => 'missingNoteId']);
-    }
-
-    try {
-      $note = $this->database->getNote($noteId);
-    } catch (NotFoundException $e) {
-      $this->redirect('/', ['error' => 'noteNotFound']);
-    }
+    $note = $this->getNote();
 
     $this->view->render('show',['note' => $note]);
   }
 
-  public function listAction(){
+  public function listAction(): void{
     $this->view->render(
       'listNotes',
       [
@@ -49,8 +41,7 @@ class NoteController extends AbstractController{
     );
   }
 
-  public function editAction(){
-
+  public function editAction(): void{
     if ($this->request->isPost()) {
       $noteId = (int) $this->request->postParam('id');
       $noteData = [
@@ -61,6 +52,25 @@ class NoteController extends AbstractController{
       $this->redirect('/', ['before' => 'edited']);
     }
 
+    $note = $this->getNote();
+
+    $this->view->render('editNote', ['note' => $note]);
+  }
+
+  public function deleteAction(): void{
+    if ($this->request->isPost()){
+      $id = (int) $this->request->postParam('id');
+      $this->database->deleteNote($id);
+      $this->redirect('/', ['before' => 'deleted']);
+    }
+
+    $note = $this->getNote();
+
+    $this->view->render('delete', ['note' => $note]);
+  }
+
+
+  final private function getNote(): array{
     $noteId = (int) $this->request->getParam('id');
     if (!$noteId) {
       $this->redirect('/', ['error' => 'missingNoteId']);
@@ -72,6 +82,6 @@ class NoteController extends AbstractController{
       $this->redirect('/', ['error' => 'noteNotFound']);
     }
 
-    $this->view->render('editNote', ['note' => $note]);
+    return $note;
   }
 }

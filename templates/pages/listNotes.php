@@ -7,6 +7,12 @@
             switch ($params['before']){
                 case 'created':
                     echo 'Note has been created!';
+                    break;
+                case 'edited':
+                    echo 'Note has been edited!';
+                    break;
+                case 'deleted':
+                    echo 'Note has been deleted!';
                 break;
             }
         } 
@@ -34,8 +40,9 @@
         <?php foreach ($params['notes'] ?? [] as $note) : ?>
             <div class="show-note">
                 <p class="show-date"><?php echo $note['created'] ?><p>
+                <p class="delete-note"><a href="/?action=delete&id=<?php echo $note['id'] ?>" class="delete-note">delete</a></p>
                 <p><?php echo $note['title'] ?></p>
-                <p class="show-more"><a href="/?action=show&id=<?php echo $note['id'] ?>" class="show-more">show</a></p>
+                <p class="show-more"><a href="/?action=show&id=<?php echo $note['id'] ?>" class="show-more">show</a></p>                
             </div>
             <?php endforeach; ?>
     </div>

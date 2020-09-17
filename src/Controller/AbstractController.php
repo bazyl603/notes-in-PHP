@@ -35,7 +35,7 @@ abstract class AbstractController{
     $this->view = new View();
   }
   
-  public function run(): void {
+  final public function run(): void {
     $action = $this->action() . 'Action';
 
     if (!method_exists($this, $action)){
@@ -45,12 +45,12 @@ abstract class AbstractController{
   
   }
 
-  private function action(): string {
+  final private function action(): string {
     $action = $this->request->getParam('action', self::DEFAULT_ACTION);
     return $action;
   }
 
-  protected function redirect(string $to, array $params): void{
+  final protected function redirect(string $to, array $params): void{
     $location = $to;
 
     if (count($params)) {

@@ -84,6 +84,18 @@ class Database
     }
   }
 
+  public function deleteNote(int $id): void{
+    try {
+      $query = "
+        DELETE FROM notes WHERE id = $id LIMIT 1
+      ";
+
+      $this->con->exec($query);
+    } catch (Throwable $e) {
+      throw new StorageException('not delete note', 400, $e);
+    }
+  }
+
   private function createConnection(array $config): void{
     $dsn = "mysql:dbname={$config['database']};host={$config['host']}";
     $this->con = new PDO(
