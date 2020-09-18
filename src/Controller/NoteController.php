@@ -31,17 +31,31 @@ class NoteController extends AbstractController{
   }
 
   public function listAction(): void{
+    $pageNumber = (int) $this->request->getParam('page', 1);
+    $pageSize = (int) $this->request->getParam('pagesize', 10);
+
     $sortBy = $this->request->getParam('sortby', 'title');
     $sortOrder = $this->request->getParam('sortorder', 'desc');
+
+    if (!in_array($pageSize, [1, 5, 10, 25])){
+      $pageSize = 10;
+    }
+
+    $notes = $this->database->getCount();
 
     $this->view->render(
       'listNotes',
       [
+        'page' => [
+          'number' => $pageNumber,
+          'size' => $pageSize,
+          'pages' => (int) ceil($notes / $pageSize)
+        ],
         'sort' => [
           'by' => $sortBy,
           'order' => $sortOrder 
         ],
-        'notes' => $this->database->getNotes($sortBy, $sortOrder),
+        'notes' => $this->database->getNotes($pageNumber, $pageSize, $sortBy, $sortOrder),
         'before' => $this->request->getParam('before'),
         'error' => $this->request->getParam('error')
       ]

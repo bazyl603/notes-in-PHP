@@ -41,6 +41,11 @@
         $sort = $params['sort'] ?? [];
         $by = $sort['by'] ?? 'title';
         $order = $sort['order'] ?? 'desc';
+
+        $page = $params['page'] ?? [];
+        $size = $page['size'] ?? 10;
+        $current = $page['number'] ?? 1;
+        $pages = $page['pages'] ?? 1;
     ?>
         <div>
             <form class="sort-form" action="/" method="GET">
@@ -52,6 +57,13 @@
                 <label><span class="form-d">up: </span><input name="sortorder" type="radio" value="asc" <?php echo $order === 'asc' ? 'checked' : '' ?> /></label>
                 <label><span class="form-d">down: </span><input name="sortorder" type="radio" value="desc" <?php echo $order === 'desc' ? 'checked' : '' ?> /></label>
                 </p>
+                <p>Show size: <br>
+                <select name="pagesize">
+                    <option value="1" <?php echo $size === 1 ? 'checked' : '' ?>>1</option>
+                    <option value="5" <?php echo $size === 5 ? 'checked' : '' ?>>5</option>
+                    <option value="10" <?php echo $size === 10 ? 'checked' : '' ?>>10</option>
+                    <option value="25" <?php echo $size === 25 ? 'checked' : '' ?>>25</option>
+                </select></p>    
                 <input type="submit" value="Sort" class="add-btn sort-btn" />
             </form>
         </div>
@@ -64,10 +76,32 @@
                 <p><?php echo $note['title'] ?></p>
                 <p class="show-more"><a href="/?action=show&id=<?php echo $note['id'] ?>" class="show-more">show</a></p>                
             </div>
-            <?php endforeach; ?>
+            <?php endforeach; ?>           
     </div>
-</div>
 
+    <?php
+        $paginationUrl = "&pagesize=$size?sortby=$by&sortorder=$order";
+    ?>
+
+    <div class="pagination">
+    <?php if ($current !== 1) : ?>
+    <a href="/?page=<?php echo $current - 1 . $paginationUrl ?>">
+        <button class="pag-btn"><</button>
+    </a> 
+    <?php endif; ?>   
+    <?php for ($i = 1; $i <= $pages; $i++) : ?>
+        <a href="/?page=<?php echo $i . $paginationUrl ?>">
+            <button class="pag-btn"><?php echo $i; ?></button>
+        </a>
+    <?php endfor; ?> 
+    <?php if ($current < $pages) : ?>   
+    <a href="/?page=<?php echo $current + 1 . $paginationUrl ?>">
+        <button class="pag-btn">></button>
+    </a>
+    <?php endif; ?>
+    </div>    
+</div>
+<!-- js -->
 <script>
     const el = document.querySelectorAll(".message");
     setTimeout(function(){         

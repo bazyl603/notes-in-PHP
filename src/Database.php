@@ -40,8 +40,11 @@ class Database
     return $note;
   }
 
-  public function getNotes(string $sortBy, string $sortOrder): array{
+  public function getNotes(int $pageNumber, int $pageSize, string $sortBy, string $sortOrder): array{
     try {
+      $limit = $pageSize;
+      $offset = ($pageNumber - 1) * $pageSize;
+
       if (!in_array($sortBy, ['created', 'title'])){
         $sortBy ='title';
       }
@@ -50,11 +53,28 @@ class Database
         $sortOrder ='desc';
       }
 
-      $query = "SELECT id, title, created FROM notes ORDER BY $sortBy $sortOrder";
+      $query = "SELECT id, title, created FROM notes ORDER BY $sortBy $sortOrder LIMIT $offset, $limit";
       $result = $this->con->query($query);
       return $result->fetchAll(PDO::FETCH_ASSOC);
     } catch (Throwable $e) {
       throw new StorageException('We don\'t get note', 400, $e);
+    }
+  }
+
+  //number notes
+  public function getCount(): int{
+    try {
+      $query = "SELECT count(*) AS cn FROM notes";
+      $result = $this->con->query($query);
+      $result = $result->fetch(PDO::FETCH_ASSOC);
+
+      if ($result === false){
+        throw new StorageException('We don\'t get number of note', 400);
+      }
+
+      return (int) $result['cn'];
+    } catch (Throwable $e) {
+      throw new StorageException('We don\'t get number of note', 400, $e);
     }
   }
 

@@ -110,6 +110,7 @@ div {
     width: 10vw;
     min-width: 110px;
     border: 0px;
+    border-color: white;
     height: 35px;
     color: gray;
     border-radius: 50px;
@@ -220,4 +221,23 @@ hr {
     position: absolute;
     right: 5vw;
     top: 10px;
+}
+
+.pagination{
+    position: relative;
+    bottom: 5vh;
+}
+
+.pag-btn{
+    min-width: 25px;
+    border: 0px;
+    border-color: white;
+    height: 30px;
+    color: gray;
+    border-radius: 30px;
+}
+
+.pag-btn:hover{
+    background-color: lightblue;
+    color: whitesmoke;
 }
