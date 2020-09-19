@@ -40,6 +40,46 @@ class Database
     return $note;
   }
 
+  public function searchNotes(string $phrase, int $pageNumber, int $pageSize, string $sortBy, string $sortOrder): array{
+    try {
+      $limit = $pageSize;
+      $offset = ($pageNumber - 1) * $pageSize;
+
+      if (!in_array($sortBy, ['created', 'title'])){
+        $sortBy ='title';
+      }
+
+      if (!in_array($sortOrder, ['asc', 'desc'])){
+        $sortOrder ='desc';
+      }
+
+      $phrase = $this->con->quote('%'.$phrase.'%', PDO::PARAM_STR);
+
+      $query = "SELECT id, title, created FROM notes WHERE title LIKE ($phrase) ORDER BY $sortBy $sortOrder LIMIT $offset, $limit";
+      $result = $this->con->query($query);
+      return $result->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Throwable $e) {
+      throw new StorageException('Not search note', 400, $e);
+    }
+  }
+
+  public function getSearchCount(string $phrase): int{
+    try {
+      $phrase = $this->con->quote('%'.$phrase.'%', PDO::PARAM_STR);
+      $query = "SELECT count(*) AS cn FROM notes WHERE title LIKE ($phrase)";
+      $result = $this->con->query($query);
+      $result = $result->fetch(PDO::FETCH_ASSOC);
+
+      if ($result === false){
+        throw new StorageException('We don\'t get number of note', 400);
+      }
+
+      return (int) $result['cn'];
+    } catch (Throwable $e) {
+      throw new StorageException('We don\'t get number of note', 400, $e);
+    }
+  }
+
   public function getNotes(int $pageNumber, int $pageSize, string $sortBy, string $sortOrder): array{
     try {
       $limit = $pageSize;

@@ -46,9 +46,15 @@
         $size = $page['size'] ?? 10;
         $current = $page['number'] ?? 1;
         $pages = $page['pages'] ?? 1;
+
+        $phrase = $params['phrase'] ?? null;
     ?>
         <div>
             <form class="sort-form" action="/" method="GET">
+            <p>
+                <input type="text" name="phrase" class="field-long field-title search" <?php echo $phrase ?> />
+                <input type="submit" value="Search" class="add-btn sort-btn" />
+            </p>
                 <p>Sort by: <br>
                 <label><span class="form-d">title: </span><input name="sortby" type="radio" value="title" <?php echo $by === 'title' ? 'checked' : '' ?> /></label>
                 <label><span class="form-d">date: </span><input name="sortby" type="radio" value="created" <?php echo $by === 'created' ? 'checked' : '' ?> /></label>
@@ -59,9 +65,9 @@
                 </p>
                 <p>Show size: <br>
                 <select name="pagesize">
+                    <option value="10" <?php echo $size === 10 ? 'checked' : '' ?>>10</option>
                     <option value="1" <?php echo $size === 1 ? 'checked' : '' ?>>1</option>
                     <option value="5" <?php echo $size === 5 ? 'checked' : '' ?>>5</option>
-                    <option value="10" <?php echo $size === 10 ? 'checked' : '' ?>>10</option>
                     <option value="25" <?php echo $size === 25 ? 'checked' : '' ?>>25</option>
                 </select></p>    
                 <input type="submit" value="Sort" class="add-btn sort-btn" />
@@ -80,7 +86,7 @@
     </div>
 
     <?php
-        $paginationUrl = "&pagesize=$size?sortby=$by&sortorder=$order";
+        $paginationUrl = "&phrase=$phrase&pagesize=$size?sortby=$by&sortorder=$order";
     ?>
 
     <div class="pagination">

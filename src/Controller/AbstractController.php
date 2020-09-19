@@ -10,6 +10,7 @@ use App\Database;
 use App\View;
 use App\Exception\ConfigurationException;
 use App\Exception\NotFoundException;
+use App\Exception\StorageException;
 
 abstract class AbstractController{
   protected const DEFAULT_ACTION = 'list';
@@ -36,13 +37,21 @@ abstract class AbstractController{
   }
   
   final public function run(): void {
-    $action = $this->action() . 'Action';
+    try{
+      $action = $this->action() . 'Action';
 
-    if (!method_exists($this, $action)){
-      $action = self::DEFAULT_ACTION . 'Action';
+      if (!method_exists($this, $action)){
+       $action = self::DEFAULT_ACTION . 'Action';
+      }
+      $this->$action();
+    } catch(StorageException $e){
+      $this->view->render(
+        'error',
+        ['message' => $e->getMessage()]
+      );
+    } catch (NotFoundException $e) {
+      $this->redirect('/', ['error' => 'noteNotFound']);
     }
-    $this->$action();
-  
   }
 
   final private function action(): string {
