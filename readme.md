@@ -6,9 +6,9 @@ It is an application developed in PHP7.4 in the MVC architecture.
 * [Technologies](#technologies)
 * [Setup](#setup)
 
-![App](./img-readme/look-on-app.png)
-![Form](./img-readme/form-app.png)
-![Note](./img-readme/show-note.png)
+![App](./public/look-on-app.png)
+![Form](./public/form-app.png)
+![Note](./public/show-note.png)
 
 ## General info 
 The application was created while learning PHP with the use of MVC architecture and for using the database by PHP.
@@ -21,3 +21,6 @@ The project was created with:
 
 ## Setup
 The application can be run locally with XAMPP or on a server. The database is a remote database which uses https://remotemysql.com/. It has one table with the fields: id, title, description, create. The database can also be created locally, then the configuration should be changed in the config / config.php file.
+
+## Future
+Add registration and login method to create user.
